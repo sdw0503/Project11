@@ -4,7 +4,7 @@
 #include <windows.h> 
 #include <time.h>
 
-#define ROOM_WIDTH 5
+#define ROOM_WIDTH 15
 #define HME_POS 1
 #define BWL_POS (ROOM_WIDTH - 2)
 
@@ -16,6 +16,8 @@ int main(void) {
     int number;
     int cat = 3;
     int past_cat = cat;
+    int cp = 0;
+    int mood = 3;
 
 
     printf("**** 야옹이와 수프 ****\n\n");
@@ -43,6 +45,9 @@ int main(void) {
         system("cls");
 
         printf("=============== 현재 상태 ===============\n");
+        printf("CP:%d 포인트\n", cp);
+        printf("%s 기분(0~3):%d\n", str, mood);
+
         printf("현재까지 만든 수프: %d개\n", soup);
         printf("집사와의 관계 (0~4): %d\n", relationship);
 
