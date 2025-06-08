@@ -84,24 +84,25 @@ int main(void) {
 
 
         // 고양이가 이동하는 코드
-        if (number >= 3) {
-            if (cat + 1 < ROOM_WIDTH - 1) {
-                cat++;
-                printf("냄비 쪽으로 움직입니다!\n");
-            }
-            else {
-                printf("오른쪽 벽에 막혀서 이동하지 못했습니다.\n");
-            }
-        }
-        else {
-            if (cat - 1 > 0) {
+        if (mood == 0) {
+            if (cat > HME_POS) {
                 cat--;
-                printf("집 쪽으로 움직입니다!\n");
-            }
-            else {
-                printf("왼쪽 벽에 막혀서 이동하지 못했습니다.\n");
+                printf("기분이 매우 나쁜 %s은(는) 집으로 향합니다.\n", str);
             }
         }
+
+        else if (mood == 2) {
+            printf("%s(은)는 기분좋게 식빵을 굽고 있습니다.\n", str);
+
+        }
+        else if (mood == 3) {
+            if (cat < BWL_POS) {
+                cat++;
+                printf("%s(은)는 골골송을 부르며 수프를 만들러 갑니다.\n", str);
+            }
+        }
+
+
 
         printf("\n");
         Sleep(500);
