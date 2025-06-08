@@ -110,8 +110,12 @@ int main(void) {
 
         // 이동조건에 맞는 값을 출력하는 코드
         if (cat == HME_POS) {
-            printf("%s(은)는 자신의 집에서 편안함을 느낍니다.\n\n", str);
+            if (past_cat == HME_POS) {
+                mood++;
+                printf("%s(은)는 자신의 집에서 편안함을 느낍니다: %d->%d\n", str, mood - 1, mood);
+            }
         }
+
         else if (cat == BWL_POS) {
             printf("%s(은)는 수프를 만들었습니다!\n", str);
 
@@ -226,6 +230,9 @@ int main(void) {
         }
 
     }
+    cp = mood - 1 + relationship;
+    printf("CP: %d 포인트\n", cp);
+
 
     return 0;
 }
