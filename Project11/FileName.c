@@ -66,8 +66,7 @@ int main(void) {
 
         Sleep(500);
 
-        printf("%s 이동: 집사와 친밀할수록 냄비 쪽으로 갈 확률이 높아집니다.\n", str);
-        printf("주사위 눈이 3 이상이면 냄비 쪽으로 이동합니다.\n");
+        printf("6-%d: 주사위 눈이 %d이하면 그냥 기분이 나빠집니다.\n", relationship, 6 - relationship);
         printf("주사위를 굴립니다. 또르륵...\n");
         Sleep(500);
 
@@ -75,6 +74,14 @@ int main(void) {
         printf("%d(이)가 나왔습니다!\n", number);
         Sleep(500);
         past_cat = cat;
+        if (number <= 6 - relationship) {
+            if (mood > 0) mood--;
+            printf("%s(은)는 기분이 나빠집니다:%d\n", str, mood);
+        }
+        else {
+            printf("%s(은)는 기분이 그대로입니다.\n", str);
+        }
+
 
         // 고양이가 이동하는 코드
         if (number >= 3) {
