@@ -3,6 +3,7 @@
 #include <stdlib.h>
 #include <windows.h> 
 #include <time.h>
+#include <stdbool.h>
 
 #define ROOM_WIDTH 15
 #define HME_POS 1
@@ -18,6 +19,16 @@ int main(void) {
     int past_cat = cat;
     int cp = 0;
     int mood = 3;
+    int shop_choice;
+    const char* item[] = { "장난감 쥐", "레이저 포인터", "스크래처", "캣타워" };
+    int item_cost[] = { 1, 2, 4, 6 };
+    bool item_purchased[] = { false, false, false, false };
+    int item_pos[ROOM_WIDTH] = { 0 };
+    int item_type[] = { 0, 0, 1, 2 };
+    int interaction_order[2] = { -1, -1 };
+    int interaction_count = 0;
+    int pos;
+
 
 
     printf("**** 야옹이와 수프 ****\n\n");
@@ -243,7 +254,62 @@ int main(void) {
     }
     cp = mood - 1 + relationship;
     printf("CP: %d 포인트\n", cp);
+    printf("\n상점에서 물건을 살 수 있습니다.\n");
+    printf("0. 아무것도 사지 않는다\n");
+    for (int i = 0; i < 4; i++) {
+        printf("%d. %s: %d CP", i + 1, item[i], item_cost[i]);
+        if (item_purchased[i]) printf(" (품절)");
+        printf("\n");
+    }
+    // 입력값이 유효할 때까지 반복
+    printf(">> ");
+    scanf_s("%d", &shop_choice);
+    while (shop_choice < 0 || shop_choice > 4) {
+        printf("잘못된 입력입니다. 다시 입력하세요.\n");
+        printf(">> ");
+        scanf_s("%d", &shop_choice);
+    }
 
+    if (shop_choice == 0) {
+        printf("구매하지 않았습니다.\n\n");
+    }
+    else if (shop_choice >= 1 && shop_choice <= 4) {
+        int index = shop_choice - 1;
+        if (cp < item_cost[index]) {
+            printf("CP가 부족합니다.\n\n");
+        }
+        else if (item_purchased[index]) {
+            printf("이미 구매한 아이템입니다.\n\n");
+        }
+        else {
+            item_purchased[index] = true;
+            cp -= item_cost[index];
+            printf("%s를 구매했습니다. 남은 CP: %d 포인트\n\n", item[index], cp);
+            // 장난감(0,1번)만 구매 순서 저장
+            if (index == 0 || index == 1) {
+                if (interaction_count < 2) {
+                    interaction_order[interaction_count++] = index;
+                }
+            }
+            if (index == 2 || index == 3) {
+
+                pos = rand() % (ROOM_WIDTH - 2) + 1; // 1~13 사이
+                while (pos == HME_POS || pos == BWL_POS || pos == cat) {
+                    pos = rand() % (ROOM_WIDTH - 2) + 1;
+                }
+
+                if (index == 2) {
+                    item_pos[pos] = 1; // 스크래처
+                }
+                else {
+                    item_pos[pos] = 2; // 캣타워
+                }
+
+                printf("%s를 방의 위치 %d에 배치했습니다.\n\n", item[index], pos);
+            }
+        }
+    }
+    }
 
     return 0;
 }
