@@ -18,7 +18,7 @@ int main(void) {
     int cat = 3;
     int past_cat = cat;
     int cp = 0;
-    int mood = 0;
+    int mood = 3;
     int player, computer;
     int turn_count = 0;
     int shop_choice;
@@ -312,7 +312,29 @@ int main(void) {
             }
             printf("현재 친밀도: %d\n\n", relationship);
 
-        }
+		}
+		else {
+			// 놀잇감과 상호작용
+			int idx = interaction_order[interaction - 2];
+			if (item_purchased[idx]) {
+				printf("%s와 놀았습니다.\n", item[idx]);
+				if (item_type[idx] == 0) { // 장난감 쥐, 레이저 포인터
+					mood++;
+					printf("%s(은)는 즐거워합니다: %d->%d\n", str, mood - 1, mood);
+				}
+				else if (item_type[idx] == 1) { // 스크래처
+					mood += 2;
+					printf("%s(은)는 스크래처를 긁고 놀았습니다. 기분이 제법 좋아졌습니다: %d->%d\n", str, mood - 2, mood);
+				}
+				else if (item_type[idx] == 2) { // 캣타워
+					mood += 3;
+					printf("%s(은)는 캣타워를 뛰어다닙니다. 기분이 매우 좋아졌습니다: %d->%d\n", str, mood - 3, mood);
+				}
+			}
+			else {
+				printf("%s는 아직 구매하지 않은 아이템입니다.\n", item[idx]);
+			}
+		}
        
 
         cp = mood - 1 + relationship;
