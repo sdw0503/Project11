@@ -312,30 +312,49 @@ int main(void) {
             }
             printf("현재 친밀도: %d\n\n", relationship);
 
-		}
-		else {
-			// 놀잇감과 상호작용
-			int idx = interaction_order[interaction - 2];
-			if (item_purchased[idx]) {
-				printf("%s와 놀았습니다.\n", item[idx]);
-				if (item_type[idx] == 0) { // 장난감 쥐, 레이저 포인터
-					mood++;
-					printf("%s(은)는 즐거워합니다: %d->%d\n", str, mood - 1, mood);
-				}
-				else if (item_type[idx] == 1) { // 스크래처
-					mood += 2;
-					printf("%s(은)는 스크래처를 긁고 놀았습니다. 기분이 제법 좋아졌습니다: %d->%d\n", str, mood - 2, mood);
-				}
-				else if (item_type[idx] == 2) { // 캣타워
-					mood += 3;
-					printf("%s(은)는 캣타워를 뛰어다닙니다. 기분이 매우 좋아졌습니다: %d->%d\n", str, mood - 3, mood);
-				}
-			}
-			else {
-				printf("%s는 아직 구매하지 않은 아이템입니다.\n", item[idx]);
-			}
-		}
-       
+        }
+        else {
+            int idx = interaction - 2;
+            if (idx >= 0 && idx < interaction_count) {
+                int item_idx = interaction_order[idx];
+                if (item_purchased[item_idx]) {
+                    if (item_idx == 0) { // 장난감 쥐
+                        int prev_mood = mood;
+                        mood++;
+                        if (mood > 3) mood = 3;
+                        printf("장난감 쥐로 %s와 놀아 주었습니다. %s의 기분이 조금 좋아졌습니다: %d->%d\n", str, str, prev_mood, mood);
+                        printf("친밀도는 주사위 4 이상이면 1 증가\n");
+                        Sleep(500);
+                        printf("주사위를 굴립니다. 또르륵...\n");
+                        printf("%d(이)가 나왔습니다!\n", number);
+                        if (number >= 4) {
+                            if (relationship < 4) relationship++;
+                            printf("친밀도가 높아집니다. 현재 친밀도: %d\n", relationship);
+                        }
+                        else {
+                            printf("친밀도는 그대로입니다.\n");
+                        }
+                    }
+                    else if (item_idx == 1) { // 레이저 포인터
+                        int prev_mood = mood;
+                        mood += 2;
+                        if (mood > 3) mood = 3;
+                        printf("레이저 포인터로 %s와 신나게 놀아 주었습니다. %s의 기분이 꽤 좋아졌습니다: %d->%d\n", str, str, prev_mood, mood);
+                        printf("친밀도는 주사위 2 이상이면 1 증가\n");
+                        Sleep(500);
+                        printf("주사위를 굴립니다. 또르륵...\n");
+                        printf("%d(이)가 나왔습니다!\n", number);
+                        if (number >= 2) {
+                            if (relationship < 4) relationship++;
+                            printf("친밀도가 높아집니다. 현재 친밀도: %d\n", relationship);
+                        }
+                        else {
+                            printf("친밀도는 그대로입니다.\n");
+                        }
+                    }
+                }
+            }
+        }
 
         cp = mood - 1 + relationship;
         printf("CP: %d 포인트\n", cp);
