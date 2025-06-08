@@ -188,15 +188,23 @@ int main(void) {
 
         if (interaction == 0) {
             printf("아무것도 하지 않습니다.\n");
-            printf("4/6 확률로 친밀도가 떨어집니다.\n");
+            if (mood < 0) {
+                mood--;
+                printf("%s의 기분이 나빠집니다:%d\n", str, mood);
+            }
+            else {
+                printf(" %s의 기분은 이미 0입니다.\n", str);
+            }
+
+            printf("친밀도는 주사위를 던져서 눈이 5이하이면 1감소.\n");
             Sleep(500);
             printf("주사위를 굴립니다. 또르륵...\n");
             printf("%d(이)가 나왔습니다!\n", number);
 
-            if (number <= 4) {
+            if (number <= 5) {
                 if (relationship > 0) {
                     relationship--;
-                    printf("친밀도가 떨어집니다.\n");
+                    printf("집사와의 관계가 나빠집니다.\n");
                 }
                 else {
                     printf("친밀도는 0 이하로 내려가지 않음.\n");
@@ -209,7 +217,8 @@ int main(void) {
         }
         else if (interaction == 1) {
             printf("%s의 턱을 긁어주었습니다.\n", str);
-            printf("2/6 확률로 친밀도가 올라갑니다.\n");
+            printf("%s의 기분은 그대로입니다:%d\n", str, mood);
+            printf("친밀도는 주사위 5이상이면 1증가\n");
             Sleep(500);
             printf("주사위를 굴립니다. 또르륵...\n");
             printf("%d(이)가 나왔습니다!\n", number);
@@ -227,7 +236,9 @@ int main(void) {
                 printf("친밀도는 그대로입니다.\n");
             }
             printf("현재 친밀도: %d\n\n", relationship);
+
         }
+
 
     }
     cp = mood - 1 + relationship;
